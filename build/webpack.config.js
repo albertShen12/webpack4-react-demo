@@ -1,9 +1,16 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/index.js',    // 入口
-    context: path.resolve(__dirname,'../'),
+    entry: {
+        main: './src/index.js'
+    },    // 入口
+    output: {
+        path: path.resolve(__dirname, '../dist'),
+        filename: '[name].js'
+    },
+    context: path.resolve(__dirname, '../'),
     module: {
         rules: [
             {
@@ -12,6 +19,24 @@ module.exports = {
                 use: {
                     loader: "babel-loader"
                 }
+            },
+            {
+                test: /\.css$/,
+                use: [{
+                    loader: 'style-loader'
+                }, {
+                    loader: 'css-loader'
+                }]
+            },
+            {
+                test: /\.less$/,
+                use: [{
+                    loader: 'style-loader'
+                }, {
+                    loader: 'css-loader'
+                }, {
+                    loader: 'less-loader'
+                }]
             },
             {
                 test: /\.html$/,
@@ -23,6 +48,12 @@ module.exports = {
                 ]
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        },
+        runtimeChunk: true
     },
     plugins: [
         new HtmlWebPackPlugin({
