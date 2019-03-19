@@ -11,6 +11,9 @@ module.exports = {
         filename: '[name].js'
     },
     context: path.resolve(__dirname, '../'),
+    devServer:{
+        historyApiFallback: true
+    },
     module: {
         rules: [
             {
